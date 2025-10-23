@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "Withdraw";
+    Layout = "~/Views/Shared/_Employee.cshtml";
+}
+
+
+<div class="container pt-3">
+    <h4>Withdraw</h4>
+
+    @using (Html.BeginForm("Withdraw", "Employee", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="mb-3">
+            <label class="form-label">Account Type</label>
+            @Html.DropDownList("accountType", (IEnumerable<SelectListItem>)ViewBag.AccountTypes, new { @class = "form-control", required = "required" })
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Account ID</label>
+            <input type="text" name="accountId" class="form-control" required placeholder="e.g. SB-xxxxx or FD-xxxxx" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Amount</label>
+            <input type="number" name="amount" class="form-control" step="0.01" min="0.01" required />
+        </div>
+
+        <button type="submit" class="btn btn-warning">Submit Withdraw</button>
+        <a href="@Url.Action("Index","Employee")" class="btn btn-secondary ms-2">Back</a>
+    }
+</div>

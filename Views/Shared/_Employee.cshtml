@@ -1,0 +1,142 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+</head>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+<style>
+    /* Navbar customizations */
+    .site-navbar {
+        box-shadow: 0 2px 4px rgba(0,0,0,.06);
+    }
+
+        .site-navbar .navbar-brand {
+            font-weight: 700;
+            letter-spacing: .3px;
+        }
+
+        .site-navbar .auth-btn {
+            min-width: 96px;
+        }
+
+        .site-navbar .nav-link {
+            color: rgba(255,255,255,.92);
+        }
+
+        .site-navbar .navbar-nav .nav-item {
+            margin-right: .25rem;
+        }
+
+    /* Footer tweaks */
+    footer a.text-white-50:hover {
+        color: #fff;
+        text-decoration: underline;
+    }
+
+    /* Ensure footer sticks to bottom when content is short */
+    html, body {
+        height: 100%;
+    }
+
+    .page-root {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    main.page-content {
+        flex: 1 0 auto; /* grows to fill available space */
+    }
+
+    footer.page-footer {
+        flex-shrink: 0;
+    }
+</style>
+<body>
+    <div>
+        @*<div class="card-header">
+                Header
+            </div>*@
+        <nav class="navbar navbar-expand-lg navbar-dark bg-secondary site-navbar">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/Auth/Index">Hanara Bank</a>
+                @*<div>Welcome</div>*@
+
+                <h2 class="text-light">Welcome @Session["name"]</h2>
+                @{ if (Session["uname"] == null)
+                    {
+                        <a class="navbar-brand" href="/Auth/Login">Login</a>
+                    }
+                    else
+                    {
+                        <a class="navbar-brand" href="/Auth/Logout">Logout</a>
+                    }
+                }
+            </div>
+    </nav>
+
+
+    <main class="page-content">
+        @RenderBody()
+    </main>
+    <footer class="page-footer bg-dark text-white mt-4">
+        <div class="container py-4">
+            <div class="row gy-3">
+                <div class="col-md-4">
+                    <h6 class="mb-2">Hanara Bank</h6>
+                    <p class="small mb-0 text-white-50">
+                        Trusted banking since 20XX. We provide savings, loans and fixed deposits with customer-first service.
+                    </p>
+                </div>
+
+
+
+                <div class="col-6 col-md-3">
+                    <h6 class="mb-2">Contact</h6>
+                    <address class="small text-white-50 mb-0">
+                        Hanara Bank Head Office<br />
+                        123 Banking Street, City<br />
+                        Phone: <a class="text-white-50" href="tel:+911234567890">+91 12345 67890</a><br />
+                        Email: <a class="text-white-50" href="mailto:support@hanarabank.example">support@hanarabank.example</a>
+                    </address>
+                </div>
+
+                <div class="col-md-3">
+                    <h6 class="mb-2">Follow us</h6>
+                    <div class="d-flex gap-2">
+                        <a class="btn btn-outline-light btn-sm rounded-circle" href="#" aria-label="Twitter">T</a>
+                        <a class="btn btn-outline-light btn-sm rounded-circle" href="#" aria-label="Facebook">f</a>
+                        <a class="btn btn-outline-light btn-sm rounded-circle" href="#" aria-label="LinkedIn">in</a>
+                        <a class="btn btn-outline-light btn-sm rounded-circle" href="#" aria-label="Instagram">I</a>
+                    </div>
+
+                    <div class="mt-3">
+                        <small class="text-white-50">
+                            Support: Mon–Fri, 9:00–18:00
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="border-secondary my-3" />
+
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center small text-white-50">
+                <div>&copy; @DateTime.Now.Year Hanara Bank. All rights reserved.</div>
+                <div class="mt-2 mt-md-0">
+                    <a class="text-white-50 text-decoration-none me-3" href="/Home/Privacy">Privacy</a>
+                    <a class="text-white-50 text-decoration-none me-3" href="/Home/Terms">Terms</a>
+                    <span class="text-muted">Designed by Bank IT Team</span>
+                </div>
+            </div>
+            <div class="container py-4">
+                <div class="text-center small text-muted">Hanara Bank — banking made simple.</div>
+            </div>
+        </div>
+    </footer>
+    </div>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

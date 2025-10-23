@@ -1,0 +1,108 @@
+﻿@model BankSystem.Models.Customer
+@{
+    ViewBag.Title = "CustRegister";
+    Layout = "~/Views/Shared/Main.cshtml";
+}
+
+@if (TempData["AlertMessage"] != null)
+{
+    <div class="alert @TempData["AlertType"]" role="alert">
+        @TempData["AlertMessage"]
+    </div>
+
+    <div class="d-flex container pt-3 justify-content-center">
+
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">Register</h5>
+                <form method="post">
+                    @Html.LabelFor(c => c.CustName, new { @class = "f-4 pt-2" })
+                    <label class="pt-2">Customer Name</label>
+                    @Html.TextBoxFor(c => c.CustName, new { @class = "form-control " })
+                    @Html.ValidationMessageFor(c => c.CustName)
+
+                    <label class="pt-2">Customer Password</label>
+                    @*@Html.Label("Cpassword", "Password")*@
+                    <br />
+                    @Html.PasswordFor(c => c.Cpassword, new { @class = "form-control" })
+                    <br />
+                    @Html.ValidationMessageFor(c => c.Cpassword)
+
+                    <label class="pt-2">PAN</label>
+                    @*@Html.LabelFor(c => c.PAN, new { @class = "pt-2" })*@
+                    @Html.TextBoxFor(c => c.PAN, "true", new { @class = "form-control" })
+
+                    <label class="pt-2">DOB</label>
+                    @*@Html.LabelFor(c => c.DOB, new { @class = "pt-2" })*@
+                    @Html.TextBoxFor(c => c.DOB, null, new { @type = "date", @class = "form-control" })
+
+                    <label class="pt-2">Phone Number</label>
+                    @Html.LabelFor(c => c.PhoneNumber, new { @class = "pt-2" })
+                    @Html.TextBoxFor(c => c.PhoneNumber, null, new { @type = "phone", @class = "form-control" })
+                    @Html.ValidationMessageFor(c => c.PhoneNumber)
+
+                    <label class="pt-2">Address</label>
+                    @Html.LabelFor(c => c.Address, new { @class = "pt-2" })
+                    @Html.TextBoxFor(c => c.Address, new { @class = "form-control pt-1" })
+
+
+                    <input type="submit" class="btn btn-success mt-2" value="Register" />
+                </form>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="d-flex container pt-3 justify-content-center">
+
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">Register</h5>
+                <form method="post">
+                    @Html.LabelFor(c => c.CustName, new { @class = "f-4 pt-2" })
+                    <label class="pt-2">Customer Name</label>
+                    @Html.TextBoxFor(c => c.CustName, new { @class = "form-control " })
+                    @Html.ValidationMessageFor(c => c.CustName)
+
+                    <label class="pt-2">Customer Password</label>
+                    @*@Html.Label("Cpassword", "Password")*@
+                    <br />
+                    @Html.PasswordFor(c => c.Cpassword, new { @class = "form-control" })
+                    <br />
+                    @Html.ValidationMessageFor(c => c.Cpassword)
+
+                    <label class="pt-2">PAN</label>
+                    @*@Html.LabelFor(c => c.PAN, new { @class = "pt-2" })*@
+                    @Html.TextBoxFor(c => c.PAN, "true", new { @class = "form-control" })
+
+                    <label class="pt-2">DOB</label>
+                    @*@Html.LabelFor(c => c.DOB, new { @class = "pt-2" })*@
+                    @Html.TextBoxFor(c => c.DOB, null, new { @type = "date", @class = "form-control" })
+
+                    @*<label class="pt-2">Phone Number</label>*@
+                    @Html.LabelFor(c => c.PhoneNumber, new { @class = "pt-2" })
+                    @Html.TextBoxFor(c => c.PhoneNumber, null, new { @type = "phone", @class = "form-control" })
+                    @Html.ValidationMessageFor(c => c.PhoneNumber)
+
+                    <label class="pt-2">Address</label>
+                    @Html.LabelFor(c => c.Address, new { @class = "pt-2" })
+                    @Html.TextBoxFor(c => c.Address, new { @class = "form-control pt-1" })
+
+
+                    <input type="submit" class="btn btn-success mt-2" value="Register" />
+                </form>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+<div class=@ViewData["cls"]>
+    @ViewData["msg"]
+</div>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js"></script>
+

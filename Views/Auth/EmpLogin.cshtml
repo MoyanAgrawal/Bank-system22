@@ -1,0 +1,37 @@
+﻿@model BankSystem.Models.employee
+@{
+    ViewBag.Title = "EmpLogin";
+    Layout = "~/Views/Shared/Main.cshtml";
+}
+
+
+<div class="d-flex container pt-3 justify-content-center">
+
+    <div class="card" style="width: 19rem;">
+        <div class="card-body">
+            <h5 class="card-title">Login</h5>
+            <form method="post">
+                @*<label name="c.Empname" class="pt-1">Username</label>*@
+                @*@Html.LabelFor(c => c.Empname, new { @class = "pt-1" })*@
+                <label class="pt-1">Employee Name</label>
+                @Html.TextBoxFor(c => c.Empname, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.Empname)
+
+                @*<label name="c.Epassword" class="pt-1">Password</label>*@
+                @*@Html.LabelFor(c => c.Epassword, new { @class = "pt-1" })*@
+                <label class="pt-1">Employee Password</label>
+                @Html.PasswordFor(c => c.Epassword, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.Epassword)
+
+                <button type="submit" class="btn btn-success mt-2" onclick="/Employee/Index">Login</button>
+                @*<a class="btn btn-success mt-2" href="/Employee/Index">Login</a>*@
+
+            </form>
+        </div>
+    </div>
+    @ViewData["msg"]
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js"></script>

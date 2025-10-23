@@ -1,0 +1,78 @@
+﻿razor BankSystem\Views\Employee\ViewTransactions.cshtml
+@{
+    ViewBag.Title = "View Transactions";
+    Layout = "~/Views/Shared/_Employee.cshtml";
+    var accountType = (ViewBag.AccountType ?? "").ToString();
+    var accountId = (ViewBag.AccountId ?? "").ToString();
+    var transactions = ViewBag.Transactions as IEnumerable<dynamic>;
+}
+
+<div class="container pt-3">
+    <h4>View Transactions</h4>
+
+    <!-- Form to request transactions when controller is hit without parameters -->
+    @using (Html.BeginForm("ViewTransactions", "Employee", FormMethod.Get))
+    {
+        <div class="row g-2 mb-3">
+            <div class="col-md-3">
+                <label class="form-label">Account Type</label>
+                @Html.DropDownList("accountType", (IEnumerable<SelectListItem>)ViewBag.AccountTypes, new { @class = "form-control", required = "required" })
+            </div>
+            <div class="col-md-5">
+                <label class="form-label">Account ID</label>
+                <input type="text" name="accountId" class="form-control" placeholder="e.g. SB-000001 or LN-000001 or FD-000001" required />
+            </div>
+            <div class="col-md-2 align-self-end">
+                <button type="submit" class="btn btn-primary">Show</button>
+            </div>
+            <div class="col-md-2 align-self-end">
+                <a class="btn btn-secondary" href="@Url.Action("Index","Employee")">Back</a>
+            </div>
+        </div>
+    }
+
+    @if (transactions == null)
+    {
+        <div class="alert alert-info">Enter account type and account id above and click Show to view transactions.</div>
+    }
+    else if (!transactions.Any())
+    {
+        <div class="alert alert-info">No transactions found for <strong>@accountId</strong> (@accountType).</div>
+    }
+    else
+    {
+        <h5>Transactions for @accountId (@accountType)</h5>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Amount</th>
+                    <th>Outstanding / Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var tDyn in transactions)
+                {
+                    dynamic t = tDyn;
+                    string date = "";
+                    string type = "";
+                    string amount = "";
+                    string detail = "";
+
+                    try { date = (t.TransactionDate != null) ? ((DateTime?)t.TransactionDate)?.ToString("yyyy-MM-dd HH:mm") : (t.EMIDate_Actual != null ? ((DateTime?)t.EMIDate_Actual)?.ToString("yyyy-MM-dd") : ""); } catch { }
+                    try { type = (t.TransactionType != null) ? t.TransactionType.ToString() : (t.FDType != null ? t.FDType.ToString() : ""); } catch { }
+                    try { amount = (t.Amount != null) ? string.Format("{0:N2}", (decimal?)t.Amount) : ""; } catch { }
+                    try { detail = (t.Outstanding != null) ? string.Format("{0:N2}", (decimal?)t.Outstanding) : ""; } catch { }
+
+                    <tr>
+                        <td>@date</td>
+                        <td>@type</td>
+                        <td>@amount</td>
+                        <td>@(String.IsNullOrEmpty(detail) ? "-" : detail)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

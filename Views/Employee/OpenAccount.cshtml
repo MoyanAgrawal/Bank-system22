@@ -1,0 +1,149 @@
+﻿@model BankSystem.Models.ViewModels.OpenAccountViewModel
+@{
+    ViewBag.Title = "OpenAccount";
+    Layout = "~/Views/Shared/_Employee.cshtml";
+}
+
+<div class="d-flex container pt-3 justify-content-center">
+    <div class="card" style="width: 30rem;">
+        <div class="card-body">
+            <h5 class="card-title">Open an Account</h5>
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.SelectedCustNum, "Customer")
+
+                    @* If a customer was preselected via PAN, show readonly display and hidden SelectedCustNum *@
+                    @if (Model != null && Model.IsCustomerSelected)
+                    {
+                        <input type="text" readonly="readonly" class="form-control" value="@(Model.CustomerDisplay ?? "")" />
+                        @Html.HiddenFor(m => m.SelectedCustNum)
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(m => m.SelectedCustNum, Model.CustomerList, "Select a customer...", new { @class = "form-control" })
+                    }
+
+                    @Html.ValidationMessageFor(m => m.SelectedCustNum)
+                </div>
+
+                <div class="form-group pt-2">
+                    @Html.LabelFor(m => m.AccountType, "Account Type")
+
+                    @* Use AccountTypeList populated by controller (filtered by department) *@
+                    @Html.DropDownListFor(
+                                       m => m.AccountType,
+                                       Model.AccountTypeList ?? new SelectList(new[] { new { Value = "", Text = "No account types available" } }, "Value", "Text"),
+                                       new { @class = "form-control", id = "accountType" })
+                    @Html.ValidationMessageFor(m => m.AccountType)
+                </div>
+
+                @* Savings section (render controlled by Allow* flags and shown by JS based on selected account type) *@
+                if (Model.AllowSavings || Model.AllowAll)
+                {
+                    <div id="savingsSection" style="display:none;">
+                        <h6 class="pt-2">Savings Account</h6>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.SavingsInitialDeposit)
+                            @Html.TextBoxFor(m => m.SavingsInitialDeposit, new { @class = "form-control", type = "number", step = "0.01", min = "0" })
+                            @Html.ValidationMessageFor(m => m.SavingsInitialDeposit)
+                        </div>
+                    </div>
+                }
+
+                @* Loan section *@
+                if (Model.AllowLoan || Model.AllowAll)
+                {
+                    <div id="loanSection" style="display:none;">
+                        <h6 class="pt-2">Loan Account</h6>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.LoanAmount)
+                            @Html.TextBoxFor(m => m.LoanAmount, new { @class = "form-control", type = "number", step = "0.01", min = "0" })
+                            @Html.ValidationMessageFor(m => m.LoanAmount)
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.LoanStartDate)
+                            @Html.TextBoxFor(m => m.LoanStartDate, new { @class = "form-control", type = "date" })
+                            @Html.ValidationMessageFor(m => m.LoanStartDate)
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.LoanTenureMonths)
+                            @Html.TextBoxFor(m => m.LoanTenureMonths, new { @class = "form-control", type = "number", min = "1" })
+                            @Html.ValidationMessageFor(m => m.LoanTenureMonths)
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.LoanROI)
+                            @Html.TextBoxFor(m => m.LoanROI, new { @class = "form-control", type = "number", step = "0.01", min = "0" })
+                            @Html.ValidationMessageFor(m => m.LoanROI)
+                        </div>
+                    </div>
+                }
+
+                @* FD section *@
+                if (Model.AllowFD || Model.AllowAll)
+                {
+                    <div id="fdSection" style="display:none;">
+                        <h6 class="pt-2">Fixed Deposit</h6>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.FDStartDate)
+                            @Html.TextBoxFor(m => m.FDStartDate, new { @class = "form-control", type = "date" })
+                            @Html.ValidationMessageFor(m => m.FDStartDate)
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.FDEndDate)
+                            @Html.TextBoxFor(m => m.FDEndDate, new { @class = "form-control", type = "date" })
+                            @Html.ValidationMessageFor(m => m.FDEndDate)
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.FDDepositAmount)
+                            @Html.TextBoxFor(m => m.FDDepositAmount, new { @class = "form-control", type = "number", step = "0.01", min = "0" })
+                            @Html.ValidationMessageFor(m => m.FDDepositAmount)
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.FDROI)
+                            @Html.TextBoxFor(m => m.FDROI, new { @class = "form-control", type = "number", step = "0.01", min = "0" })
+                            @Html.ValidationMessageFor(m => m.FDROI)
+                        </div>
+                    </div>
+                }
+
+                <input type="submit" class="btn btn-success mt-2" value="Create" />
+            }
+        </div>
+        <p class=" text-danger">
+            @ViewBag.err
+        </p>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        (function () {
+            function updateSections() {
+                var typeEl = document.getElementById('accountType');
+                var type = (typeEl && typeEl.value || '').toLowerCase();
+
+                var savings = document.getElementById('savingsSection');
+                var loan = document.getElementById('loanSection');
+                var fd = document.getElementById('fdSection');
+
+                if (savings) savings.style.display = (type === 'savings') ? 'block' : 'none';
+                if (loan) loan.style.display = (type === 'loan') ? 'block' : 'none';
+                if (fd) fd.style.display = (type === 'fd' || type === 'fixeddeposit') ? 'block' : 'none';
+            }
+
+            var sel = document.getElementById('accountType');
+            if (sel) {
+                sel.addEventListener('change', updateSections);
+                if (sel.options.length === 2 && sel.options[0].value === "") {
+                    sel.selectedIndex = 1;
+                }
+            }
+
+            updateSections();
+        })();
+    </script>
+}

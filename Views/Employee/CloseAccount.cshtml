@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "CloseAccount";
+    Layout = "~/Views/Shared/_Employee.cshtml";
+}
+
+<div class="container pt-3">
+    <h4>Close Account</h4>
+
+    @using (Html.BeginForm("CloseAccount", "Employee", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="mb-3">
+            <label class="form-label">Account Type</label>
+            @Html.DropDownList("accountType", (IEnumerable<SelectListItem>)ViewBag.AccountTypes, new { @class = "form-control", required = "required" })
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Account ID</label>
+            <input type="text" name="accountId" class="form-control" placeholder="e.g. SB-xxxxx or LN-xxxxx or FD-xxxxx" />
+        </div>
+
+        <button type="submit" class="btn btn-danger">Close Account</button>
+        <a href="@Url.Action("Index","Employee")" class="btn btn-secondary ms-2">Back</a>
+    }
+</div>

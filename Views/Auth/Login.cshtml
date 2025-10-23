@@ -1,0 +1,36 @@
+﻿@model BankSystem.Models.employee
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/Main.cshtml";
+}
+
+
+
+<div class="d-flex container pt-3 justify-content-center">
+
+    <div class="card" style="width: 19rem;">
+        <div class="card-body">
+            <h5 class="card-title">Login</h5>
+            <form method="post">
+                @*<label name="c.Empname" class="pt-1">Username</label>*@
+                @Html.LabelFor(c => c.Empname, new { @class = "pt-1" })
+                @Html.TextBoxFor(c => c.Empname, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.Empname)
+
+                @*<label name="c.Epassword" class="pt-1">Password</label>*@
+                @Html.LabelFor(c => c.Epassword, new { @class = "pt-1" })
+                @Html.PasswordFor(c => c.Epassword, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.Epassword)
+
+                <input type="submit" class="btn btn-success mt-2" value="Login" />
+                @*<a class="btn btn-success mt-2" href="/Employee/Index">Login</a>*@
+                <div class="d-flex mt-2" >
+                    New Customer?
+                    <p class="text-primary"><a href="/Auth/EmpRegister">Create New Customer</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+    @ViewData["msg"]
+</div>
+

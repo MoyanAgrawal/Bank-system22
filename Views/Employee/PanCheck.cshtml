@@ -1,0 +1,28 @@
+﻿@model BankSystem.Models.Customer
+@{
+    ViewBag.Title = "PanCheck";
+    Layout = "~/Views/Shared/_Employee.cshtml";
+}
+
+
+<div class="d-flex container pt-3 justify-content-center">
+    <div class="card" style="width: 30rem;">
+        <div class="card-body">
+            <h5 class="card-title">Open an Account</h5>
+
+            @using (Html.BeginForm())
+            {
+                @Html.LabelFor(c => c.PAN, new { @class = "pt-2" })
+                @Html.TextBoxFor(c => c.PAN, "true", new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.PAN);
+
+                <input type="submit" class="btn btn-success mt-2" value="Check PAN" />
+            }
+
+            <p class="text-danger">    
+            @ViewBag.err
+                </p>
+        </div>
+    </div>
+</div>
+

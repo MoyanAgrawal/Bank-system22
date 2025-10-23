@@ -1,0 +1,49 @@
+﻿@model BankSystem.Models.Customer
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/Main.cshtml";
+}
+
+<div class="d-flex container pt-3 justify-content-center">
+
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">Register</h5>
+            <form method="post">
+                @Html.LabelFor(c => c.CustName, new { @class = "f-4 pt-2" })
+                @Html.TextBoxFor(c => c.CustName, new { @class = "form-control " })
+                @Html.ValidationMessageFor(c => c.CustName)
+
+                @Html.Label("Cpassword", "Password")
+                <br />
+                @Html.Password("PlainPassword", null, new { @class = "form-control" })
+                <br />
+                @Html.ValidationMessageFor(c => c.Cpassword)
+
+                @Html.LabelFor(c => c.PAN, new { @class = "pt-2" })
+                @Html.TextBoxFor(c => c.PAN, "true", new { @class = "form-control" })
+
+                @Html.LabelFor(c => c.DOB, new { @class = "pt-2" })
+                @Html.TextBoxFor(c => c.DOB, null, new { @type = "date", @class = "form-control" })
+
+
+                @Html.LabelFor(c => c.PhoneNumber, new { @class = "pt-2" })
+                @Html.TextBoxFor(c => c.PhoneNumber, null, new { @type = "phone", @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.PhoneNumber)
+
+
+                @Html.LabelFor(c => c.Address, new { @class = "pt-2" })
+                @Html.TextBoxFor(c => c.Address, new { @class = "form-control pt-1" })
+
+
+                <input type="submit" class="btn btn-success mt-2" value="Register" />
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<div class=@ViewData["cls"]>
+    @ViewData["msg"]
+</div>

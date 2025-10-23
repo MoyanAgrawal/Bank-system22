@@ -1,0 +1,62 @@
+﻿@model BankSystem.Models.ViewModels.EmployeeRegisterViewModel
+
+@{
+    ViewBag.Title = "AddStaff";
+    Layout = "~/Views/Shared/_Employee.cshtml";
+}
+<div class="container min-vh-100 d-flex align-items-center justify-content-center">
+    <div class="card shadow-sm w-100" style="max-width: 540px;">
+        <div class="card-body">
+            <h5 class="card-title mb-3">Register Staff</h5>
+
+            @if (!string.IsNullOrEmpty(ViewBag.Success as string))
+            {
+                <div class="alert alert-success alert-sm">@ViewBag.Success</div>
+            }
+            @if (!string.IsNullOrEmpty(ViewBag.err as string))
+            {
+                <div class="alert alert-danger alert-sm">@ViewBag.err</div>
+            }
+
+            @using (Html.BeginForm("AddStaff", "Manager", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger mb-2" })
+
+                <div class="mb-3">
+                    @Html.LabelFor(m => m.Empname, new { @class = "form-label" })
+                    @Html.TextBoxFor(m => m.Empname, new { @class = "form-control", placeholder = "Full name" })
+                    @Html.ValidationMessageFor(m => m.Empname, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="mb-3">
+                    @Html.LabelFor(m => m.Deptid, new { @class = "form-label" })
+                    @Html.DropDownListFor(m => m.Deptid, Model.DeptList ?? new SelectList(Enumerable.Empty<SelectListItem>()), "-- Select Department --", new { @class = "form-select" })
+                    @Html.ValidationMessageFor(m => m.Deptid, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="mb-3">
+                    @Html.LabelFor(m => m.Epassword, new { @class = "form-label" })
+                    @Html.PasswordFor(m => m.Epassword, new { @class = "form-control", placeholder = "Enter password" })
+                    @Html.ValidationMessageFor(m => m.Epassword, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="mb-3">
+                    @Html.LabelFor(m => m.PAN, new { @class = "form-label" })
+                    @Html.TextBoxFor(m => m.PAN, new { @class = "form-control", placeholder = "AAAA0000" })
+                    @Html.ValidationMessageFor(m => m.PAN, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">Register Staff</button>
+                </div>
+            }
+        </div>
+        <div class="card-footer text-muted small">
+            <div class="d-flex justify-content-between">
+                <span>Only managers can add staff.</span>
+                <span>All fields are required.</span>
+            </div>
+        </div>
+    </div>
+</div>
